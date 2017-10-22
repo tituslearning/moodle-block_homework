@@ -383,3 +383,16 @@ $string['lognotifications_help'] = 'Log notification emails and include the log 
 $string['cachedef_participants'] = 'Cached participant lists for each homework assignment';
 $string['requirerestriction'] = 'Require restriction';
 $string['requirerestriction_help'] = 'Only allow assignment creation if it is restricted to specific group(s) or user(s)';
+$string['archiveafter'] = 'Days days after due on  before archiving';
+$string['subjects'] = 'Subjects';
+$string['subjects_text'] = 'Subjects that the assignment covers';
+$string['deleteafterdays'] = 'Deletion interval';
+$string['deleteafterdays_text'] = 'Interval in days between due date and deletion';
+$string['archiveafterdays'] = 'Archive interval';
+$string['archiveafterdays_text'] = 'Interval in days between due date and archiving';
+$string['subjectlist'] = 'Subject list';
+$string['subjectlist_text'] = 'Show a pre-determined list of subjects in a dropdown rather than a free form text box';
+$string['archive'] = 'archive';
+
+
+
