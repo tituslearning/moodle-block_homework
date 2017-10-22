@@ -20,6 +20,7 @@
         <FIELD NAME="notifyother" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" PREVIOUS="notesforlearners" NEXT="notifyotheremail"/>
         <FIELD NAME="notifyotheremail" TYPE="char" LENGTH="255" NOTNULL="false"  SEQUENCE="false" PREVIOUS="notifyother" NEXT="notificationssent"/>
         <FIELD NAME="notificationssent" TYPE="int" LENGTH="10" NOTNULL="false"  SEQUENCE="false" PREVIOUS="notifyotheremail"/>
+        <FIELD NAME="archiveafterdays" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" PREVIOUS="notificationssent" comment="days between duedate and archiving"/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
