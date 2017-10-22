@@ -392,7 +392,10 @@ $string['archiveafterdays'] = 'Archive interval';
 $string['archiveafterdays_text'] = 'Interval in days between due date and archiving';
 $string['subjectlist'] = 'Subject list';
 $string['subjectlist_text'] = 'Show a pre-determined list of subjects in a dropdown rather than a free form text box';
-$string['archive'] = 'archive';
+$string['archive'] = 'Archive homework assignments';
+$string['delete'] = 'Delete homework assignments';
+
+
 
 
 
