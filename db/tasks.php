@@ -30,5 +30,14 @@ $tasks = array(
         'day' => '*',
         'dayofweek' => '*',
         'month' => '*'
-    )
+    ),
+    array(
+        'classname' => 'block_homework\task\archive_task',
+        'blocking' => 0,
+        'minute' => '*/5',
+        'hour' => '8-20',
+        'day' => '*',
+        'dayofweek' => '*',
+        'month' => '*'
+    ),
 );
