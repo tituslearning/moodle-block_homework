@@ -74,11 +74,35 @@ if ($ADMIN->fulltree) {
                        get_string('defaultnotifyparents', 'block_homework'),
                        get_string('defaultnotifyparents_help', 'block_homework'), 0, $onoff));
 
+     $settings->add(new admin_setting_configcheckbox('block_homework/subjectlist',
+        get_string('subjectlist', 'block_homework'),
+        get_string('subjectlist_text', 'block_homework') , 1));
+
+    $settings->add(new admin_setting_configtextarea('block_homework/subjects',
+         get_string('subjects', 'block_homework'),
+         get_string('subjects_text', 'block_homework'),
+         "Mathematics,English", PARAM_TEXT, 20, 3));
+    /* used to populate a list of subjjects, one of which is picked for each assignment */
+    $settings->add(new admin_setting_configtextarea('block_homework/subjects',
+         get_string('subjects', 'block_homework'),
+         get_string('subjects_text', 'block_homework'),
+         "Mathematics,English", PARAM_TEXT, 20, 3));
+
+     /* interval in days before an assignment is deleted */
+    $settings->add(new admin_setting_configtext('block_homework/deleteafterdays',
+         get_string('deleteafterdays', 'block_homework'),
+         get_string('deleteafterdays_text', 'block_homework'),
+         "425", PARAM_INT, 3, 1));
+       
+    /* interval in days before an assignment is archived */
+       $settings->add(new admin_setting_configtext('block_homework/archiveafterdays',
+         get_string('archiveafterdays', 'block_homework'),
+         get_string('archiveafterdays_text', 'block_homework'),
+         "14", PARAM_INT, 3, 1));
+
     /* settings specific to Homework block extended by proprietary availability plugin */
     $extrasettings = $CFG->dirroot . '/availability/condition/user/homework/settings.php';
     if (file_exists($extrasettings)) {
         require_once($extrasettings);
     }
 }
-
-
