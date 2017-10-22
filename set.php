@@ -48,8 +48,8 @@ class block_homework_text_editor_form extends moodleform {
         $mform = $this->_form;
         $mform->addElement('editor', $this->_customdata['name'], '', array('rows' => 10),
             array('maxfiles' => EDITOR_UNLIMITED_FILES, 'noclean' => true, 'context' => $this->_customdata['context'],
-                'subdirs' => true)
-            );
+            'subdirs' => true)
+        );
         $mform->setType($this->_customdata['name'], PARAM_RAW);
     }
 }
@@ -131,7 +131,7 @@ class block_homework_set_page extends e\block_homework_form_page_base {
                 if (isset($values["users"])) {
                     $restrictedcount += count($values["users"]);
                     if (block_homework_moodle_utils::is_availability_condition_user_present() &&
-                        get_config('block_homework', 'creator_is_participant') == 1) {
+                            get_config('block_homework', 'creator_is_participant') == 1) {
                         if (!in_array($USER->id, $values["users"])) {
                             $values["users"][] = $USER->id;
                         }
@@ -178,11 +178,7 @@ class block_homework_set_page extends e\block_homework_form_page_base {
                 }
             } else {
                 // Editing existing activity.
-                $act = block_homework_moodle_utils::update_course_activity($activity, $values["section"], $values["name"],
-                        block_homework_moodle_utils::rewrite_urls_to_pluginfile($values["introeditor"]["text"]),
-                        $values["submissions"] == 1 || $values["submissions"] == 3, $values["submissions"] >= 2,
-                        $values["gradingscale"], strtotime($values["available"]), strtotime($values["due"]), $values["groups"],
-                        $values["users"], $values["showdescription"]);
+                $act = block_homework_moodle_utils::update_course_activity($activity, $values["section"], $values["name"], block_homework_moodle_utils::rewrite_urls_to_pluginfile($values["introeditor"]["text"]), $values["submissions"] == 1 || $values["submissions"] == 3, $values["submissions"] >= 2, $values["gradingscale"], strtotime($values["available"]), strtotime($values["due"]), $values["groups"], $values["users"], $values["showdescription"]);
                 if ($act) {
                     $subject = isset($values["subject"]) ? $values["subject"] : '';
                     $notetoparentssubject = isset($values["note_to_parents_subject"]) ? $values["note_to_parents_subject"] : '';
@@ -265,6 +261,8 @@ class block_homework_set_page extends e\block_homework_form_page_base {
     protected function get_form_settings() {
         global $USER, $DB, $CFG;
         $form = array();
+        $config = get_config('block_homework');
+
         /* detect presence of proprietary availability plugin for additional functionality */
         $extrafunc = file_exists($CFG->dirroot . '/availability/condition/user/homework/settings.php');
 
@@ -280,6 +278,8 @@ class block_homework_set_page extends e\block_homework_form_page_base {
                     $form[$this->get_str('selectcourse')] = array(
                         'selectcourse' => array('type' => 'select', 'prompt' => $this->get_str('course'),
                             'options' => $courseoptions));
+                    $config = get_config('block_homework');
+
                     return $form;
                 }
             }
@@ -358,7 +358,7 @@ class block_homework_set_page extends e\block_homework_form_page_base {
         $assshowdescription = ($this->editingcmid == 0) ? $defaultshowdescription : $this->assignment->showdescription;
         if (get_config('block_homework', 'allow_showdescription') == 1) {
             $form[$basicstab]['showdescription'] = array('type' => 'switch', 'prompt' => $this->get_str('showdescription'),
-                    'default' => $defaultshowdescription, 'value' => $assshowdescription);
+                'default' => $defaultshowdescription, 'value' => $assshowdescription);
         } else {
             $form[$basicstab]['showdescription'] = array('type' => 'hidden', 'default' => $defaultshowdescription,
                 'value' => $assshowdescription);
@@ -375,15 +375,23 @@ class block_homework_set_page extends e\block_homework_form_page_base {
                 $subjectoptions = HomeworkAccess::get_subjects();
             }
         }
-        $popularsubjects = $DB->get_records_sql('SELECT DISTINCT subject FROM {block_homework_assignment} ORDER BY subject');
-        foreach ($popularsubjects as $sub) {
-            if (!in_array($sub->subject, $subjectoptions)) {
-                $subjectoptions[] = $sub->subject;
+        /* setting controls if a freeform popular subjects text box is shown or a dropdown list with values from config */
+        if (!$config->subjectlist) {
+            $popularsubjects = $DB->get_records_sql('SELECT DISTINCT subject FROM {block_homework_assignment} ORDER BY subject');
+            foreach ($popularsubjects as $sub) {
+                if (!in_array($sub->subject, $subjectoptions)) {
+                    $subjectoptions[] = $sub->subject;
+                }
             }
+            asort($subjectoptions);
+            $form[$basicstab]['subject'] = array('prompt' => $this->get_str('subject'), 'type' => 'text',
+                'autofilloptions' => $subjectoptions, 'size' => 50, 'value' => $subject, 'required' => true);
+        } else {
+            $subjectoptions = explode(",", $config->subjects);
+            asort($subjectoptions);
+            $form[$basicstab]['subject'] = array('prompt' => $this->get_str('subject'), 'type' => 'select',
+                'options' => $subjectoptions, 'value' => '');
         }
-        asort($subjectoptions);
-        $form[$basicstab]['subject'] = array('prompt' => $this->get_str('subject'), 'type' => 'text',
-            'autofilloptions' => $subjectoptions, 'size' => 50, 'value' => $subject, 'required' => true);
 
         if ($CFG->enableavailability == 0) {
             $form[$basicstab]['groups'] = array('type' => "hidden", 'value' => '');
@@ -399,7 +407,7 @@ class block_homework_set_page extends e\block_homework_form_page_base {
                 $coursecontext = context_course::instance($this->courseid);
                 // Debatable as to whether moodle/course:managegroups should allow selection of any group too?
                 $seeallgroups = $this->course->groupmode != 1 ||
-                                has_capability('moodle/site:accessallgroups', $coursecontext);
+                        has_capability('moodle/site:accessallgroups', $coursecontext);
                 if ($seeallgroups) {
                     $groups = groups_get_all_groups($this->courseid);
                 } else {
@@ -428,7 +436,7 @@ class block_homework_set_page extends e\block_homework_form_page_base {
             if (block_homework_moodle_utils::is_availability_condition_user_present()) {
                 $context = \context_course::instance($this->courseid);
                 $seeallusers = $this->course->groupmode != 1 ||
-                                has_capability('moodle/site:accessallgroups', $context);
+                        has_capability('moodle/site:accessallgroups', $context);
                 $courseuserobjects = get_role_users(3, $context);
                 $courseuserobjects += get_role_users(5, $context);
                 $courseusers = array();
@@ -450,8 +458,7 @@ class block_homework_set_page extends e\block_homework_form_page_base {
                     }
                     $courseusers[$user->id] = $user->lastname . ', ' . $user->firstname;
                     if ($this->editingcmid != 0) {
-                        if (block_homework_moodle_utils::is_group_or_user_in_availability_json($this->assignment->availability,
-                                null, $user->id, false)) {
+                        if (block_homework_moodle_utils::is_group_or_user_in_availability_json($this->assignment->availability, null, $user->id, false)) {
                             $selectedusers[] = $user->id;
                         }
                     }
@@ -508,8 +515,7 @@ class block_homework_set_page extends e\block_homework_form_page_base {
             'options' => $scaleoptions, 'value' => $assscale);
         $context = context_course::instance($this->courseid);
         if (has_capability('moodle/course:managescales', $context)) {
-            $form[$basicstab]['gradingscale-info'] = array('type' => 'label-info', 'value' => $this->get_str('gradingscalelink',
-                    $CFG->wwwroot . '/grade/edit/scale/index.php?id=' . $this->courseid));
+            $form[$basicstab]['gradingscale-info'] = array('type' => 'label-info', 'value' => $this->get_str('gradingscalelink', $CFG->wwwroot . '/grade/edit/scale/index.php?id=' . $this->courseid));
         }
         $durationoptions = array('' => $this->get_str('duration_notspecified'),
             10 => $this->get_str('duration_10'),
@@ -573,7 +579,7 @@ class block_homework_set_page extends e\block_homework_form_page_base {
                 'subgroup_if_on' => array(
                     'notifyotheremail' => array('prompt' => $this->get_str('notifyotheremail'), 'type' => 'email',
                         'size' => 80, 'required' => true, 'value' => $assnotifyotheremail)
-                ));
+            ));
         } else {
             $form[$basicstab]['notifyother'] = array('type' => 'hidden', 'value' => 0);
             $form[$basicstab]['notifyotheremail'] = array('type' => 'hidden', 'value' => '');
@@ -612,20 +618,20 @@ class block_homework_set_page extends e\block_homework_form_page_base {
                             'size' => 80, 'required' => true, 'value' => $assparentnotessubject),
                         'note_to_parents_body' => array('prompt' => $this->get_str('notesforparents'), 'type' => 'static',
                             'value' => $notetoparentscontrol)
-                    ));
+                ));
             } else {
                 $form[$basicstab]['notifyparents'] = array('type' => 'switch', 'prompt' => $this->get_str('notifyparents'),
                     'default' => false,
                     'subgroup_if_on' => array(
                         'note_to_parents' => array('type' => 'label-warning', 'value' => $this->get_str('communicatormissing'))
-                    ));
+                ));
             }
         } else {
             $form[$basicstab]['notifyparents'] = array('type' => 'switch', 'prompt' => $this->get_str('notifyparents'),
                 'default' => false,
                 'subgroup_if_on' => array(
                     'note_to_parents' => array('type' => 'label-warning', 'value' => $this->get_str('edulinkfeatureonly'))
-                ));
+            ));
         }
 
         $notetolearnerscontrol = $this->get_text_editor($asscontext, 0, 'note_to_learners', $asslearnernotes);
@@ -636,7 +642,7 @@ class block_homework_set_page extends e\block_homework_form_page_base {
                     'size' => 80, 'required' => true, 'value' => $asslearnernotessubject),
                 'note_to_learners_body' => array('prompt' => $this->get_str('notesforlearners'), 'type' => 'static',
                     'value' => $notetolearnerscontrol)
-            ));
+        ));
 
         return $form;
     }
