@@ -138,6 +138,17 @@ function xmldb_block_homework_upgrade($oldversion = 0) {
             $result = false;
         }
     }
+        
+        if ($oldversion < 2017052413) {
+            $table = new xmldb_table('block_homework_assignment');
+            $field = new xmldb_field('archiveafterdays', XMLDB_TYPE_INTEGER, '10', null, null, null, '0');
+             $dbman = $DB->get_manager();
+            if (!$dbman->field_exists($table, $field)) {
+                $dbman->add_field($table, $field);
+            }
+            upgrade_block_savepoint(true, 2017052413, 'homework');
+        }
+    
 
     return $result;
 }
