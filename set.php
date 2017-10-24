@@ -375,6 +375,8 @@ class block_homework_set_page extends e\block_homework_form_page_base {
                 $subjectoptions = HomeworkAccess::get_subjects();
             }
         }
+          $form[$basicstab]['archiveafterdays'] = array('prompt'=>'Archive after days','type' => 'text','size' => 3, 'value' => $config->archiveafterdays);
+        
         /* setting controls if a freeform popular subjects text box is shown or a dropdown list with values from config */
         if (!$config->subjectlist) {
             $popularsubjects = $DB->get_records_sql('SELECT DISTINCT subject FROM {block_homework_assignment} ORDER BY subject');
