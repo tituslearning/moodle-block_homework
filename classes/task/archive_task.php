@@ -50,6 +50,7 @@ class archive_task extends \core\task\scheduled_task {
         mtrace('homework_block_archive_task start');
         /** find all courses that include the homework block */
         global $DB;
+        /* 50 is CONTEXT_COURSE */
         $sql = "select ctx.instanceid as courseid from {context} ctx 
             where contextlevel=50 and ctx.id in 
             (select parentcontextid from {block_instances} b 
@@ -62,13 +63,17 @@ class archive_task extends \core\task\scheduled_task {
             $cms = get_fast_modinfo($course->courseid)->get_cms();
             $modinfo = get_fast_modinfo($course->courseid);
             /* find the biggest course section (furthest from the top) */
-            $sql = "SELECT section FROM {course_sections} WHERE section=(select max(section) from {course_sections}) and course=?";
-            $maxsection = $DB->get_record_sql($sql, array($course->courseid));
+            $sql= "select max(section) as section from {course_sections} where course=?"; 
+            $maxsection = $DB->get_record_sql($sql, array($course->courseid));      
             $coursesection = get_fast_modinfo($course->courseid)->get_section_info($maxsection->section);
+            /*if the end section is visible, hide it (from students) */
+            if($coursesection->visible==1){ 
+               set_section_visible($course->courseid, $maxsection->section, false);                  
+           }
             $assigns = get_fast_modinfo($course->courseid)->get_instances_of('assign');
             foreach ($assigns as $assign) {
                 if ($assign->section !== $coursesection->id) {
-                    $this->archive($assign, $coursesection, $daysagostamp);
+                   $this->archive($assign, $coursesection, $daysagostamp);
                 }
             }
         }

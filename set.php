@@ -39,7 +39,6 @@ class block_homework_file_uploader_form extends moodleform {
         $filemanageropts = $this->_customdata['filemanageropts'];
         $mform->addElement('filemanager', 'introattachment', '', null, $filemanageropts);
     }
-
 }
 
 class block_homework_text_editor_form extends moodleform {
@@ -174,7 +173,9 @@ class block_homework_set_page extends e\block_homework_form_page_base {
                                     $act["coursemodule"], $USER->id, $subject, $values["duration"],
                                     $values["notifyother"], $values["notifyotheremail"],
                                     $values["notifyparents"], $notetoparentssubject, $notetoparents,
-                                    $values["notifylearners"], $notetolearnerssubject, $notetolearners);
+                                    $values["notifylearners"], $notetolearnerssubject, $notetolearners,
+                                    $values['archiveafterdays']                            
+                            );
                 }
             } else {
                 // Editing existing activity.
@@ -195,7 +196,9 @@ class block_homework_set_page extends e\block_homework_form_page_base {
                                     $act["coursemodule"], $USER->id, $subject, $values["duration"],
                                     $values["notifyother"], $values["notifyotheremail"],
                                     $values["notifyparents"], $notetoparentssubject, $notetoparents,
-                                    $values["notifylearners"], $notetolearnerssubject, $notetolearners);
+                                    $values["notifylearners"], $notetolearnerssubject, $notetolearners,
+                                    $values['archiveafterdays']
+                            );
                 }
             }
             if ($act) {

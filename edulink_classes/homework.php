@@ -205,7 +205,8 @@ class block_homework_utils {
     public static function add_homework_tracking_record($coursemoduleid, $userid, $subject, $duration,
                                                         $notifyother, $notifyotheremail,
                                                         $notifyparents, $notesforparentssubject, $notesforparents,
-                                                        $notifylearners, $notesforlearnerssubject, $notesforlearners) {
+                                                        $notifylearners, $notesforlearnerssubject, $notesforlearners,
+                                                        $archiveafterdays) {
         global $DB;
 
         $do = array(
@@ -220,7 +221,8 @@ class block_homework_utils {
             'notesforparents' => $notesforparents,
             'notifylearners' => $notifylearners,
             'notesforlearnerssubject' => $notesforlearnerssubject,
-            'notesforlearners' => $notesforlearners
+            'notesforlearners' => $notesforlearners,
+            'archiveafterdays' => $archiveafterdays
         );
         return $DB->insert_record('block_homework_assignment', $do);
     }
@@ -228,7 +230,8 @@ class block_homework_utils {
     public static function update_homework_tracking_record($coursemoduleid, $userid, $subject, $duration,
                                                            $notifyother, $notifyotheremail,
                                                            $notifyparents, $notesforparentssubject, $notesforparents,
-                                                           $notifylearners, $notesforlearnerssubject, $notesforlearners) {
+                                                           $notifylearners, $notesforlearnerssubject, $notesforlearners,
+                                                           $archiveafterdays) {
         global $DB;
 
         $id = $DB->get_field('block_homework_assignment', 'id', array('coursemoduleid' => $coursemoduleid));
@@ -245,7 +248,8 @@ class block_homework_utils {
                 'notesforparents' => $notesforparents,
                 'notifylearners' => $notifylearners,
                 'notesforlearnerssubject' => $notesforlearnerssubject,
-                'notesforlearners' => $notesforlearners
+                'notesforlearners' => $notesforlearners,
+                'archiveafterdays' => $archiveafterdays
             );
             return $DB->update_record('block_homework_assignment', $do);
         } else {
