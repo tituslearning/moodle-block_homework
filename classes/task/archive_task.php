@@ -40,7 +40,6 @@ class archive_task extends \core\task\scheduled_task {
         $sql = "select duedate from {assign} where id =?";
         $deadline = $DB->get_record_sql($sql, array($assign->instance));
        if ($deadline->duedate > $archiveafter) {
-      // if(1==1){
              /* defined in core api */
              moveto_module($assign, $coursesection);
         }
