@@ -392,7 +392,7 @@ class block_homework_set_page extends e\block_homework_form_page_base {
             $form[$basicstab]['subject'] = array('prompt' => $this->get_str('subject'), 'type' => 'text',
                 'autofilloptions' => $subjectoptions, 'size' => 50, 'value' => $subject, 'required' => true);
         } else {
-            $subjectoptions = explode(",", $config->subjects);
+            $subjectoptions = explode(",", ", ".$config->subjects);
             asort($subjectoptions);
             $form[$basicstab]['subject'] = array('prompt' => $this->get_str('subject'), 'type' => 'select',
                 'options' => $subjectoptions, 'value' => '');
