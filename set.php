@@ -392,7 +392,10 @@ class block_homework_set_page extends e\block_homework_form_page_base {
             $form[$basicstab]['subject'] = array('prompt' => $this->get_str('subject'), 'type' => 'text',
                 'autofilloptions' => $subjectoptions, 'size' => 50, 'value' => $subject, 'required' => true);
         } else {
+            /*The leading commas ensuure the dropdown shows as empty to start */
             $subjectoptions = explode(",", ", ".$config->subjects);
+            /*This makes the key (what gets written) the same as the value */
+            $subjectoptions=array_combine($subjectoptions, $subjectoptions);
             asort($subjectoptions);
             $form[$basicstab]['subject'] = array('prompt' => $this->get_str('subject'), 'type' => 'select',
                 'options' => $subjectoptions, 'value' => '');

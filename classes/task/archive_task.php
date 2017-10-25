@@ -31,15 +31,31 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot . '/blocks/homework/edulink_classes/homework.php');
 
 class archive_task extends \core\task\scheduled_task {
+    
+    /**
+     * Must be included as it is abstract in the base class 
+     * @return string
+     */
     public function get_name() {
         return get_string('archive', 'block_homework');
     }
 
+    /**
+     * Check if the duedate is older than (smaller than)
+     * the archive after date. If so move the assignment
+     * to the end topic which has been set to be hidden
+     * from students.
+     * 
+     * @global moodle_database $DB
+     * @param object $assign
+     * @param object $coursesection
+     * @param number $archiveafter
+     */
     public function archive($assign, $coursesection, $archiveafter) {
         global $DB;
         $sql = "select duedate from {assign} where id =?";
         $deadline = $DB->get_record_sql($sql, array($assign->instance));
-       if ($deadline->duedate > $archiveafter) {
+        if ($deadline->duedate < $archiveafter) {
              /* defined in core api */
              moveto_module($assign, $coursesection);
         }

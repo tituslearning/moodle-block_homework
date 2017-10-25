@@ -28,10 +28,18 @@ require_once($CFG->dirroot . '/blocks/homework/edulink_classes/homework.php');
 
 class delete_task extends \core\task\scheduled_task {
 
+     /**
+     * Must be included as it is abstract in the base class 
+     * @return string
+     */
     public function get_name() {
         return get_string('delete', 'block_homework');
     }
 
+    /**
+     * This is required to be called execute for cron to automatically find it
+     * @global moodle_database $DB
+     */
     public function execute() {
         mtrace('homework_block_delete_task start');
         /** find all courses that include the homework block */
@@ -41,8 +49,8 @@ class delete_task extends \core\task\scheduled_task {
             (select parentcontextid from {block_instances} b 
             where blockname='homework')";
         $courses = $DB->get_records_sql($sql);
-        /* 60 seconds in a minute, 60 minutes in an hour 24 hours in a day */
         $deleteafterdays = get_config('block_homework')->deleteafterdays;
+        /* 60 seconds in a minute, 60 minutes in an hour 24 hours in a day */
         $daysagostamp = time() - ((60 * 60 * 24) * $deleteafterdays);
         foreach ($courses as $course) {
             $assigns = get_fast_modinfo($course->courseid)->get_instances_of('assign');
@@ -52,8 +60,7 @@ class delete_task extends \core\task\scheduled_task {
                 /* 60 seconds in a minute, 60 minutes in an hour 24 hours in a day */
                 $daysagostamp = time() - ((60 * 60 * 24) * $deleteafterdays);
                 /* if the duedate is more than x days ago then delete assignment */
-                if ($deadline->duedate > $daysagostamp) {
-               // if(true){
+                if ($deadline->duedate < $daysagostamp) {
                     mtrace('Deleting assignment:' . $assign->id);
                     course_delete_module($assign->id);
                 }
