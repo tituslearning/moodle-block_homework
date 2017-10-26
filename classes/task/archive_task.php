@@ -71,8 +71,7 @@ class archive_task extends \core\task\scheduled_task {
         and bi.blockname='homework'";        
         $courses = $DB->get_records_sql($sql);
         /* 60 seconds in a minute, 60 minutes in an hour 24 hours in a day */
-        $archiveafterdays = get_config('block_homework')->archiveafterdays;
-        $daysagostamp = time() - ((60 * 60 * 24) * $archiveafterdays);
+        //$archiveafterdays = get_config('block_homework')->archiveafterdays;
         foreach ($courses as $course) {
             $modinfo = get_fast_modinfo($course->instanceid);
             /* find the biggest course section (furthest from the top) */
@@ -82,16 +81,16 @@ class archive_task extends \core\task\scheduled_task {
             /*if the end section is visible, hide it (from students) */
             if($coursesection->visible==1){ 
                set_section_visible($course->id, $maxsection->section, false); 
-               print "Hello";
            }
            $assigns = get_fast_modinfo($course->id)->get_instances_of('assign');
             /* find assignments on this course that are listed in the homework block */
-            $sql="select cm.id,cm.section,cm.course,a.name,a.duedate from mdl_course_modules cm
+            $sql="select cm.id,cm.section,cm.course,a.name,a.duedate,bha.archiveafterdays from mdl_course_modules cm
                     join mdl_block_homework_assignment bha on cm.id=bha.coursemoduleid
                     join mdl_assign a on a.id=cm.instance
                     where cm.course=?";   
             $assigns = $DB->get_records_sql($sql, array($course->id));    
             foreach ($assigns as $assign) {
+                $daysagostamp = time() - ((60 * 60 * 24) * $assign->archiveafterdays);
                 $assign= get_fast_modinfo($course)->get_cm($assign->id);
                 if ($assign->section !== $coursesection->id) {
                    $this->archive($assign, $coursesection, $daysagostamp);
