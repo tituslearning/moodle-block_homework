@@ -398,7 +398,7 @@ class block_homework_set_page extends e\block_homework_form_page_base {
             $subjectoptions=array_combine($subjectoptions, $subjectoptions);
             asort($subjectoptions);
             $form[$basicstab]['subject'] = array('prompt' => $this->get_str('subject'), 'type' => 'select',
-                'options' => $subjectoptions, 'value' => '');
+                'options' => $subjectoptions, 'value' => '','required'=>true);
         }
 
         if ($CFG->enableavailability == 0) {
