@@ -118,7 +118,7 @@ class block_homework_moodle_utils {
                 eh.notifyparents, eh.notesforparentssubject, eh.notesforparents,
                 eh.notifylearners, eh.notesforlearnerssubject, eh.notesforlearners,
                 eh.notifyother, eh.notifyotheremail,
-                eh.userid, u.firstname, u.lastname
+                eh.userid, eh.archiveafterdays, u.firstname, u.lastname
                 FROM {course_modules} cm
                 JOIN {course} c ON (c.id = cm.course)
                 JOIN {course_sections} cs ON (cs.id = cm.section)
@@ -191,7 +191,8 @@ class block_homework_moodle_utils {
                         'feedbackenabled' => $fb->value == 1,
                         'textsubmissionenabled' => $textsub->value == 1,
                         'filesubmissionenabled' => $filesub->value == 1,
-                        'unsupported' => $unsupported);
+                        'unsupported' => $unsupported,
+                        'archiveafterdays' => $ass->archiveafterdays);          
         }
         return $activity;
     }
