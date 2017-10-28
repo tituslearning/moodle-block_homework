@@ -378,7 +378,9 @@ class block_homework_set_page extends e\block_homework_form_page_base {
                 $subjectoptions = HomeworkAccess::get_subjects();
             }
         }
-          $form[$basicstab]['archiveafterdays'] = array('prompt'=>'Archive after days','type' => 'text','size' => 3, 'value' => $config->archiveafterdays);
+        var_dump($this->assignment);
+        exit();
+        $form[$basicstab]['archiveafterdays'] = array('prompt'=>'Archive after days','type' => 'text','size' => 3, 'value' => $config->archiveafterdays);
         
         /* setting controls if a freeform popular subjects text box is shown or a dropdown list with values from config */
         if (!$config->subjectlist) {
@@ -398,7 +400,7 @@ class block_homework_set_page extends e\block_homework_form_page_base {
             $subjectoptions=array_combine($subjectoptions, $subjectoptions);
             asort($subjectoptions);
             $form[$basicstab]['subject'] = array('prompt' => $this->get_str('subject'), 'type' => 'select',
-                'options' => $subjectoptions, 'value' => '','required'=>true);
+                'options' => $subjectoptions, 'value' => $subject,'required'=>true);
         }
 
         if ($CFG->enableavailability == 0) {
