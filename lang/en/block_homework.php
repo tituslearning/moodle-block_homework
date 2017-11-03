@@ -46,7 +46,7 @@ $string['sendnotifications'] = 'Send homework notifications';
 
 // Page base.
 $string['pageerror'] = 'Sorry, there\'s been a bit of a problem: {$a}';
-$string['contactsupport'] = 'Please report bugs to your support department if you have one, otherwise to <a href="mailto:support@overnetdata.com">support@overnetdata.com</a>.';
+$string['contactsupport'] = 'Please report bugs to your support department if you have one, otherwise to <a href="mailto:support@tituslearning.com">support@tituslearning.com</a>.';
 $string['nopermission'] = 'Sorry, you don\'t have permission to use this page';
 $string['edulinkfeatureonly'] = 'This feature is only available if you have <a href="http://www.overnetdata.com/products/edulink-moodle/introduction/">EduLink for Moodle</a> installed';
 
@@ -395,8 +395,3 @@ $string['subjectlist'] = 'Subject list';
 $string['subjectlist_text'] = 'Show a pre-determined list of subjects in a dropdown rather than a free form text box';
 $string['archive'] = 'Archive homework assignments';
 $string['delete'] = 'Delete homework assignments';
-
-
-
-
-
