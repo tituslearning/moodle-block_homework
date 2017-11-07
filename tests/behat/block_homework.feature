@@ -1,10 +1,8 @@
-#A skeleton test that does nothing useful and is not tested to work
 @block @block_homework
 Feature: Add an instance of the homework block to a course
   In order to view the homework block in a course
   As a teacher
   I can add homework block to a course 
-
   Background:
     Given the following "users" exist:
       | username | firstname | lastname | email | idnumber |
@@ -16,10 +14,9 @@ Feature: Add an instance of the homework block to a course
       | user | course | role |
       | teacher1 | C1 | editingteacher |
 
-  Scenario: Add the block to a the course 
-    Given I log in as "admin"
+ @javascript
+ Scenario: Add the block to a the course 
     And I log in as "teacher1"
     And I am on "Course 1" course homepage with editing mode on
-    When I add the "Homework" block
- 
- 
+    Then I add the "Homework" block
+
