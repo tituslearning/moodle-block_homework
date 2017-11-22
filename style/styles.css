@@ -250,6 +250,10 @@ div.ond_clearer {
     margin-top: 0 !important;
 }
 
+.page_edulink_homework #id_introeditoreditable{
+    width: 100%;
+}
+
 .page_edulink_homework .form-control[type='date'] {
     width: 8.5em;
 }
