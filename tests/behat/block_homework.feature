@@ -19,4 +19,6 @@ Feature: Add an instance of the homework block to a course
     And I log in as "teacher1"
     And I am on "Course 1" course homepage with editing mode on
     Then I add the "Homework" block
+    And I click on "Set Homework" "link"
+
 
