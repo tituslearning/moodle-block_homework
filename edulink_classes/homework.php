@@ -152,7 +152,16 @@ class block_homework_utils {
                     $popup .= strip_tags($avail);
                 }
             }
-
+            if ($usertype == 'learner') {
+                if (block_homework_moodle_utils::is_item_grade_hidden($item)) {
+                    continue;
+                }
+                if (block_homework_moodle_utils::is_item_hidden($item)) {
+                    continue;
+                }
+            }
+            
+            
             $html .= '<div id="ond_homework_item_' . $item->id . '" title="' . $popup . '"><table class="ond_homework_item"><tr>' .
                     '<td class="ond_homework_item_status">' . block_homework_moodle_utils::get_assignment_status_icon($status,
                             $item->duedate) .
