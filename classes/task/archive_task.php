@@ -61,7 +61,10 @@ class archive_task extends \core\task\scheduled_task {
              moveto_module($assign, $coursesection);
         }
     }
-    public function execute() {
+    public function execute() {        
+        if(!get_config('block_homework', 'enablearchiving')){
+            return;
+        }
         mtrace('homework_block_archive_task start');
         /** find all courses that include the homework block */
         global $DB;

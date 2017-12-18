@@ -383,8 +383,11 @@ class block_homework_set_page extends e\block_homework_form_page_base {
         }else{
             $archiveafterdays=$this->assignment->archiveafterdays;
         }
-        $form[$basicstab]['archiveafterdays'] = array('prompt'=>'Archive after days','type' => 'text','size' => 3, 'value' => $archiveafterdays);
-        
+        if($config->enablearchiving){
+            $form[$basicstab]['archiveafterdays'] = array('prompt'=>'Archive after days','type' => 'text','size' => 3, 'value' => $archiveafterdays);
+        }else{
+               $form[$basicstab]['archiveafterdays']=0;
+        }
         /* setting controls if a freeform popular subjects text box is shown or a dropdown list with values from config */
         if (!$config->subjectlist) {
             $popularsubjects = $DB->get_records_sql('SELECT DISTINCT subject FROM {block_homework_assignment} ORDER BY subject');

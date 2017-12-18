@@ -41,6 +41,9 @@ class delete_task extends \core\task\scheduled_task {
      * @global moodle_database $DB
      */
     public function execute() {
+       if(!get_config('block_homework', 'enablearchiving')){
+            return;
+       }
        mtrace('homework_block_delete_task start');
         /** find all courses that include the homework block */
         global $DB;

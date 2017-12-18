@@ -395,3 +395,6 @@ $string['subjectlist'] = 'Subject list';
 $string['subjectlist_text'] = 'Show a pre-determined list of subjects in a dropdown rather than a free form text box';
 $string['archive'] = 'Archive homework assignments';
 $string['delete'] = 'Delete homework assignments';
+$string['enablearchiving'] = 'Enable archiving';
+$string['enablearchiving_text'] = 'Move homework to hiddden part of course after a set period';
+
