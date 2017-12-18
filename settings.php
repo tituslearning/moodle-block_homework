@@ -87,7 +87,12 @@ if ($ADMIN->fulltree) {
          get_string('subjects', 'block_homework'),
          get_string('subjects_text', 'block_homework'),
          "Mathematics,English", PARAM_TEXT, 20, 3));
-
+  
+    /*enable archive after days */
+     $settings->add(new admin_setting_configcheckbox('block_homework/enablearchiving',
+        get_string('enablearchiving', 'block_homework'),
+        get_string('enablearchiving_text', 'block_homework') , 0));
+    
      /* interval in days before an assignment is deleted */
     $settings->add(new admin_setting_configtext('block_homework/deleteafterdays',
          get_string('deleteafterdays', 'block_homework'),
