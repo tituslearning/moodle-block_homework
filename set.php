@@ -517,12 +517,15 @@ class block_homework_set_page extends e\block_homework_form_page_base {
                 $scaleoptions[-$scale->id] = $scale->name;
             }
         }
-        $assscale = ($this->editingcmid == 0) ? 100 : $this->assignment->grade;
+        /*set the default value in the grading scale to 0, i.e. nothing pre-selected */
+        $assscale = ($this->editingcmid == 0) ? 0 : $this->assignment->grade;
         $todayepoch = optional_param('avail', time(), PARAM_INT);
         $today = date('Y-m-d', $todayepoch);
         $assavaildate = ($this->editingcmid == 0) ? $today : $this->assignment->availabledate;
         $tomorrow = date('Y-m-d', $todayepoch + 24 * 60 * 60);
         $assduedate = ($this->editingcmid == 0) ? $tomorrow : $this->assignment->duedate;
+        
+        
 
         $form[$basicstab]['gradingscale'] = array('type' => 'select', 'prompt' => $this->get_str('gradingtype'),
             'options' => $scaleoptions, 'value' => $assscale);
