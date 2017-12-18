@@ -32,6 +32,21 @@ require_once($moodlepath . "lib/datalib.php");
 require_once($moodlepath . "course/lib.php");
 
 class block_homework_moodle_utils {
+    
+        public static function is_item_grade_hidden($item){
+                global $PAGE, $DB;
+                $grades = grade_get_grades($item->courseid, 'mod', 'assign', $item->instanceid);
+                return $grades->items[0]->hidden;      
+    }
+    public static function is_item_hidden($item){
+            $modinfo = get_fast_modinfo($item->courseid);
+            $cm = $modinfo->get_cm($item->id);
+            if (!$cm->uservisible) {
+                return true;
+            } else{
+                return false;
+            }    
+    }
 
     public static function get_str($id, $params = null) {
         if ($params == null) {
