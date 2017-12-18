@@ -1,6 +1,12 @@
+Titus Learning 2017
+This plugin has been updated by Titus Learning. For details of
+these updates see the file releasenotes.md
+
 Homework Block
 --------------
 Copyright Overnet Data Ltd.
+
+
 
 Moodle has a powerful and extremely flexible course system that includes the 
 ability to set assignments for learners. However the very flexibility of this 
