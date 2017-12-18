@@ -118,6 +118,15 @@ class ajaxgen_view_timetable extends ajaxgen_base {
                 if (($usertype == "employee") && (!$accessallgroups) && (!$viewhiddenactivities) && ($item->userid != $USER->id)) {
                     continue;
                 }
+                            
+                if ($usertype == 'learner') {
+                    if (block_homework_moodle_utils::is_item_grade_hidden($item)) {
+                        continue;
+                    }
+                    if (block_homework_moodle_utils::is_item_hidden($item)) {
+                        continue;
+                    }
+                }
                 $table->add_row();
                 $removethisrow = false;
                 if ($usertype == "employee") {
