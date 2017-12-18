@@ -138,6 +138,7 @@ class block_homework_view_assignment_page extends e\block_homework_form_page_bas
                         $cancelbutton = $this->get_str("ok");
                     }
                     $deletebutton = false;
+                    $okbutton=false;
                     if ($this->usertype == "learner") {
                         if ($this->assignmentstatus->nosubmissionrequired && !$this->assignmentstatus->submitted &&
                                 !$this->assignmentstatus->graded && !$this->assignmentstatus->completed) {
