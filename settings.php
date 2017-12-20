@@ -76,7 +76,7 @@ if ($ADMIN->fulltree) {
 
      $settings->add(new admin_setting_configcheckbox('block_homework/subjectlist',
         get_string('subjectlist', 'block_homework'),
-        get_string('subjectlist_text', 'block_homework') , 1));
+        get_string('subjectlist_text', 'block_homework'), 0));
 
     $settings->add(new admin_setting_configtextarea('block_homework/subjects',
          get_string('subjects', 'block_homework'),
