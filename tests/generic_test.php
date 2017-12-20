@@ -27,9 +27,9 @@
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * Events tests class.
+ * 
  *
- * @package    block_comments
+ * @package    block_homework
  * @category   test
  * @copyright  2017 Titus Learning by Marcus Green
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -45,7 +45,6 @@ class block_homework_generic_testcase extends advanced_testcase {
     public function setUp() {
         $this->resetAfterTest();
         $this->setAdminUser();
-
         // Create course 
         $this->course = $this->getDataGenerator()->create_course();
     }
