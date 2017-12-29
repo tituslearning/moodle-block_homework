@@ -138,8 +138,7 @@ class block_homework_utils {
             }
             if ($item->duedate > 0) {
                 if ($popup != '') {
-                    $popup .= ', ';
-                }
+                    $popup .= ', ';                }
                 $popup .= get_string('due', 'block_homework') . ': ' . self::format_date($item->duedate, true);
             }
             if (($usertype == "employee") && ($CFG->enableavailability != 0)) {
@@ -153,10 +152,7 @@ class block_homework_utils {
                 }
             }
             if ($usertype == 'learner') {
-                if (block_homework_moodle_utils::is_item_grade_hidden($item)) {
-                    continue;
-                }
-                if (block_homework_moodle_utils::is_item_hidden($item)) {
+                 if (block_homework_moodle_utils::is_item_hidden($item)) {
                     continue;
                 }
             }

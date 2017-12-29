@@ -120,9 +120,6 @@ class ajaxgen_view_timetable extends ajaxgen_base {
                 }
                             
                 if ($usertype == 'learner') {
-                    if (block_homework_moodle_utils::is_item_grade_hidden($item)) {
-                        continue;
-                    }
                     if (block_homework_moodle_utils::is_item_hidden($item)) {
                         continue;
                     }
@@ -163,7 +160,11 @@ class ajaxgen_view_timetable extends ajaxgen_base {
                 if (($usertype == "learner") || ($usertype == "parent")) {
                     $table->add_cell(new e\htmlTableCell(null, null, $item->setbyname));
                     $table->add_cell(new e\htmlTableCell(null, null, $status->status));
-                    $table->add_cell(new e\htmlTableCell(null, null, $status->grade));
+                    if (block_homework_moodle_utils::is_item_grade_hidden($item)) {
+                        $table->add_cell(new e\htmlTableCell(null, null, get_string('hidden', 'block_homework')));
+                    } else {
+                        $table->add_cell(new e\htmlTableCell(null, null, $status->grade));
+                    }
                     $table->add_cell(new e\htmlTableCell(null, null, $status->feedback));
                 } else if ($usertype == "employee") {
                     if ($CFG->enableavailability != 0) {

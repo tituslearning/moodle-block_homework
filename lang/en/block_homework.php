@@ -397,4 +397,5 @@ $string['archive'] = 'Archive homework assignments';
 $string['delete'] = 'Delete homework assignments';
 $string['enablearchiving'] = 'Enable archiving';
 $string['enablearchiving_text'] = 'Move homework to hiddden part of course after a set period';
+$string['hidden'] = 'Hidden';
 

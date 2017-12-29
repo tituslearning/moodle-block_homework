@@ -23,7 +23,7 @@
  */
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2017121701;
+$plugin->version = 2017122102;
 $plugin->requires = 2015051100; // Requires Moodle 2.9 or above.
 $plugin->component = 'block_homework';
 $plugin->release = '1.1.19';

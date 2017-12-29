@@ -248,8 +248,16 @@ class block_homework_view_assignment_page extends e\block_homework_form_page_bas
         if ($this->usertype == "learner") {
             $status = $this->assignmentstatus->status;
             if ($this->assignment->gradingenabled) {
+                $item = $this->assignment;
+                /*assignmentid needs a different name in item */
+                $item->instanceid = $this->assignment->assignmentid;
                 if ($this->assignmentstatus->graded) {
-                    $status .= ' (' . $this->assignmentstatus->grade . ')';
+                    /*if the grade is hidden in the gradebook, hide it in the homework block */
+                    if (block_homework_moodle_utils::is_item_grade_hidden($item)) {
+                        $status .= ' ('.get_string('hidden','block_homework').')';
+                    } else {
+                        $status .= ' (' . $this->assignmentstatus->grade . ')';
+                    }
                 }
             }
             if (($this->assignment->feedbackenabled) && ($this->assignmentstatus->feedback != '')) {
